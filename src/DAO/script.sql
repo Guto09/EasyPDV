@@ -1,6 +1,7 @@
 
 
-
+--criar banco com nome EasyPDV
+--senha do postgres é postgres
 ---------- SCRIPTS-----------
             
 
