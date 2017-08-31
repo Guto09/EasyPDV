@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FaturamentoDetalhado2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="65b0ebab-158b-465d-95f5-608cf74109ac">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_fat" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from faturamento_item fi, mercadoria m
+where fi.id_faturamento = $P{id_fat} and  fi.id_mercadoria = m.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="id_faturamento" class="java.lang.Integer"/>
+	<field name="id_mercadoria" class="java.lang.Integer"/>
+	<field name="quantidade" class="java.lang.Double"/>
+	<field name="valor_unitario" class="java.lang.Double"/>
+	<field name="desconto" class="java.lang.Double"/>
+	<field name="valor_total" class="java.lang.Double"/>
+	<field name="referencia" class="java.lang.String"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="estoque" class="java.lang.Double"/>
+	<field name="preco_custo" class="java.lang.Double"/>
+	<field name="preco_venda" class="java.lang.Double"/>
+	<field name="ativo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="287" y="17" width="100" height="20" uuid="9bf64386-6f41-4f89-b4dc-7a14fc00e506"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qtde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="17" width="100" height="20" uuid="b7624362-ab57-4b3e-b3fb-70d6525bb8b4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor unitário:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="17" width="100" height="20" uuid="6b2c712c-a6b2-4f6d-b773-7b4be36ca360"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referência:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="17" width="100" height="20" uuid="3a20e025-08fb-4683-ba7f-5d399f6fdece"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="366" y="17" width="100" height="20" uuid="9498b2e8-435a-4ab8-90f8-878f331fbd25"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="287" y="0" width="100" height="20" uuid="0e1c7af9-5348-442f-96ea-380976e286cc"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="197" y="0" width="100" height="20" uuid="5ddd3773-9959-4dfb-8a62-26efeb1197c4"/>
+				<textFieldExpression><![CDATA[$F{valor_unitario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="0" width="100" height="20" uuid="43d40f79-d494-41d7-b74b-774919ab0dcc"/>
+				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="100" height="20" uuid="5a97e721-f552-4b1b-bdad-7850c33c4c6a"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="366" y="0" width="100" height="20" uuid="b6c7323a-875a-4778-b747-07ce405371ed"/>
+				<textFieldExpression><![CDATA[$F{valor_total}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="20" y="21" width="423" height="1" uuid="06f6dbc0-2d60-4e62-b02c-66e986043cd7"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="32" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

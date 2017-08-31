@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FaturamentoPorCliente" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3dfc93c2-26b7-446e-8023-baa69ba8d6c6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Data_emissao_final" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Data_emissao_inicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Fase" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select e.razao_social razao_empresa,e.telefone telefone_empresa,e.endereco endereco_empresa,*,
+substr(cnpj, 1, 2) || '.' || SUBSTR(cnpj, 3, 3) || '.' ||
+        substr(cnpj, 6, 3) || '/' || SUBSTR(cnpj, 9, 4) || '-' ||
+        substr(cnpj, 13) AS cnpj_formatado,
+ case
+
+ when fase = 'c' then 'Cancelado'
+ when fase = 'e' then 'Encerrado'
+
+end
+Cativo, case when
+char_length(cpf_cnpj) > 11  then
+substr(cpf_cnpj, 1, 2) || '.' || SUBSTR(cpf_cnpj, 3, 3) || '.' ||
+        substr(cpf_cnpj, 6, 3) || '/' || SUBSTR(cpf_cnpj, 9, 4) || '-' ||
+        substr(cpf_cnpj, 13)
+when char_length(cpf_cnpj)<14 and char_length(cpf_cnpj)>10 then
+substr(cpf_cnpj, 1, 3) || '.' ||
+       substr(cpf_cnpj, 4, 3) || '.' ||
+       substr(cpf_cnpj, 7, 3) || '-' ||
+       substr(cpf_cnpj, 10)
+       else ''
+       end
+
+ from faturamento f, cliente c,empresa e where f.id_cliente = c.id
+and f.data_emissao >= $P{Data_emissao_inicial}  and f.data_emissao <= $P{Data_emissao_final} and f.fase like '%' ||$P{Fase}||'%' order by c.razao_social]]>
+	</queryString>
+	<field name="razao_empresa" class="java.lang.String"/>
+	<field name="telefone_empresa" class="java.lang.String"/>
+	<field name="endereco_empresa" class="java.lang.String"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="id_cliente" class="java.lang.Integer"/>
+	<field name="id_empresa" class="java.lang.Integer"/>
+	<field name="data_emissao" class="java.sql.Timestamp"/>
+	<field name="fase" class="java.lang.String"/>
+	<field name="desconto" class="java.lang.Double"/>
+	<field name="valor_total" class="java.lang.Double"/>
+	<field name="valor_total_liquido" class="java.lang.Double"/>
+	<field name="id_cidade" class="java.lang.Integer"/>
+	<field name="razao_social" class="java.lang.String"/>
+	<field name="tipo_cadastro" class="java.lang.String"/>
+	<field name="cpf_cnpj" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="inscricao_estadual" class="java.lang.String"/>
+	<field name="cnpj_formatado" class="java.lang.String"/>
+	<field name="cativo" class="java.lang.String"/>
+	<field name="case" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

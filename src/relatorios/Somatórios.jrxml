@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Somatórios" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="01a976bb-63b7-4737-8222-22fe1b2b2504">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Data_inicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Data_final" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select sum(valor_total_liquido) encerrado,count(id) quantidadeencerrado,(
+select sum(valor_total_liquido)cancelado
+from faturamento
+where fase = 'c'
+and data_emissao >$P{Data_inicial} and data_emissao < $P{Data_final}),
+(select count(id) quantidadeCancelados
+from faturamento
+where fase = 'c'
+and data_emissao >$P{Data_inicial} and data_emissao < $P{Data_final} )
+from faturamento
+where fase = 'e'
+and data_emissao >$P{Data_inicial} and data_emissao < $P{Data_final}]]>
+	</queryString>
+	<field name="encerrado" class="java.lang.Double"/>
+	<field name="quantidadeencerrado" class="java.lang.Long"/>
+	<field name="cancelado" class="java.lang.Double"/>
+	<field name="quantidadecancelados" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="46" forecolor="#0000CC" uuid="848599f2-7f8a-4fd9-8754-736c7d8ebe9f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="34" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Somatório de vendas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="54" width="52" height="20" uuid="37f199f2-9feb-4472-ad17-d1628c5cbb27"/>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="151" y="54" width="100" height="20" uuid="4a00f0c5-58f8-4b05-851a-3d7c5d4e6a40"/>
+				<textFieldExpression><![CDATA[$P{Data_inicial}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="37" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="54" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="51" y="10" width="100" height="20" uuid="3886ea8b-41aa-4d86-9d5f-eadb4110d624"/>
+				<textFieldExpression><![CDATA[$F{encerrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="227" y="10" width="100" height="20" uuid="c274962e-043d-458f-8d9a-49bc97f253fe"/>
+				<textFieldExpression><![CDATA[$F{cancelado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="34" width="100" height="20" uuid="7b1a8cca-afd5-4287-9891-3e0ade111d02"/>
+				<textFieldExpression><![CDATA[$F{quantidadeencerrado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="30" width="100" height="20" uuid="017e4b43-fe0d-4e10-8f0c-e66d8d12f5f8"/>
+				<textFieldExpression><![CDATA[$F{quantidadecancelados}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="44" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
